@@ -1,0 +1,17 @@
+#프로퍼티 설정은 application.properties파일과 application.yml파일 2가지 방식으로 설정가능
+#들여쓰기 주의
+
+#서버설정
+server:
+  port: 8090
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+
+#spring mvc
+#   spring:
+#     mvc:
+#       view:
+#         prefix: /WEB-INF/views/
+#         suffix: .jsp

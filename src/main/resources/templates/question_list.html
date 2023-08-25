@@ -1,0 +1,31 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>(t)id</th>
+            <th>제목</th>
+            <th>질문등록일</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="question, loop : ${questionList}">
+            <td th:text="${loop.count}"></td>
+            <td th:text="${question.id}"></td>
+            <!--<td><a href="/question/detail?id=${question.id}" th:text="${question.subject}"></a></td>-->
+            <td>
+                <!-- th:href속성에서 주소를 나타낼때에는 반드시 @{}을 이용
+                    @{URL}
+                    주의 : URL이 조합되어질때에는 @{||} 작성해야한다. -->
+                <a href="/question/detail/${question.id}"
+                   th:href="@{|/question/detail/${question.id}|}"
+                   th:text="${question.subject}"></a>
+            </td>
+            <!--temporals.format(날짜대상,"data포맷")-->
+            <td th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    </tbody>
+</table>
+    <a th:href="@{/question/add}" class="btn btn-primary">질문등록하기</a>
+</div>
