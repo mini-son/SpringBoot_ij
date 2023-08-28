@@ -29,7 +29,5 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
     findByFirstnameNotLike      … where x.firstname not like ?1 */
     List<Question> findBySubjectLike(String subject);
 
-    //질문 수정
-
 
 }

@@ -58,8 +58,11 @@ public class QuestionController {
 
 
     /*질문상세조회
-    ~
-    */
+    요청방식  get
+    요청주소  http://localhost:포트/question/detail/1001
+    파라미터  id=상세조회싶은 글번호
+    모델	    질문  QuestionDTO
+    view    templates/question_detail.html*/
     @GetMapping("/detail/{id}")
     public String detail(@PathVariable("id") Integer id, Model model, AnswerForm answerForm){
         //1.파라미터받기
