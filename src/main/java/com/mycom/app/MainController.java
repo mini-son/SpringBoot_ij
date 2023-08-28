@@ -22,6 +22,7 @@ public class MainController {
     @GetMapping("/")
     //@ResponseBody
     public String index(){
-        return "redirect:/question/list"; //templates폴더하위 question_list문서
+        return "index"; //templates폴더하위 index.html문서
+        //return "redirect:/question/list"; //templates폴더하위 question_list문서
     }
 }

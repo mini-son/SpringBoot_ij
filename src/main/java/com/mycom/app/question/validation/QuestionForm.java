@@ -16,7 +16,7 @@ import lombok.Setter;
 public class QuestionForm {
     //제목
     @NotEmpty(message = "제목은 필수 입력 입니다.")
-    @Size(max = 200)//Question Entity에서 @Colum(lenth=200)에 맞추
+    @Size(max = 200)//Question Entity에서 @Colum(lenth=200)에 맞추어서 크기제한
     private String subject;//제목
 
     //내용

@@ -23,9 +23,7 @@
     <!--<form id="answerForm" class="my-3" th:action="@{|/answer/add/${question.id}|}" method="post" >-->
     <form id="answerForm" class="my-3" th:object="${answerForm}" th:action="@{|/answer/add/${question.id}|}" method="post" >
         <!--유효성검사시 에러메세지 출력영역-->
-        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-            <div th:each="err:${#fields.allErrors()}" th:text="${err}"></div>
-        </div>
+        <div th:replace="~{form_errors::formErrorsFragment}"></div>
         <textarea th:field="*{content}" rows="8" class="form control"></textarea>
         <!--<textarea name="content" rows="8" class="form control"></textarea>-->
         <input type="submit" value="답변등록" class="btn btn-primary my-2"/>

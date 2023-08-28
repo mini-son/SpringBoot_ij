@@ -9,9 +9,7 @@
 </head>
 <body>
 <!--navigation부분-->
-<nav><a href="/" th:href="@{/}">HOME</a>
-    /navigation부분예정</nav>
-<hr/>
+<nav th:replace="~{navbar::navbarFragment}"></nav>
 <!--baseTemplate안에 포함될 내용 시작-->
 <th:block layout:fragment="content"></th:block>
 <!--baseTemplate안에 포함될 내용 끝-->
