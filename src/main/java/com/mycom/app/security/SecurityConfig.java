@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -26,4 +28,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean //passwordEncoder 생성
+    PasswordEncoder passwordEncoder(){
+        //BCryptPasswordEncoder클래스는 스프링 시큐리티에서 제공되는 클래스이다.
+        /*이 클래스를 이용해서 패스워드를 암호화해서 처리하도록 한다.
+        bcrypt는 패스워드를 저장하는 용도로 설계된 해시 함수로 특정 문자열을 암호화하고,
+        체크하는 쪽에서는 암호화된 패스워드가 가능한 패스워드인지만 확인하고
+        다시 원문으로 되돌리지는못한다.(교재 p651참고)*/
+        return new BCryptPasswordEncoder();
+    }
 }

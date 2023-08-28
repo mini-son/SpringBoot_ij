@@ -4,6 +4,7 @@ import com.mycom.app.user.service.UserService;
 import com.mycom.app.user.validation.UserCreateForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -41,9 +42,20 @@ public class UserController {
             bindingResult.rejectValue("password2","password2InCorrect","비밀번호와 비빌번호확인 일치하지 않습니다.");
             return "signup_form";//templates폴더하위의 singup_form.html문서
         }
-        userService.create(userCreateForm.getUsername(),
-                            userCreateForm.getEmail(),
-                            userCreateForm.getPassword1());
+        try{
+            userService.create(userCreateForm.getUsername(),
+                    userCreateForm.getEmail(),
+                    userCreateForm.getPassword1());
+        }catch (DataIntegrityViolationException e){
+            //여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
+            e.printStackTrace();
+            bindingResult.reject("signupFailed","이미 등록된 회원입니다.");
+            return "signup_form"; //singup_form.html문서로 이동
+        }catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("signupFailed",e.getMessage());
+            return "signup_form"; //singup_form.html문서로 이동
+        }
 
         //3.Model //4.View
         return "redirect:/"; //회원가입성공시 메인화면으로 이동
