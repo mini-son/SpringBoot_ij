@@ -21,7 +21,7 @@ public class AnswerService {
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question); //fk격에 해당하는 질문 객체
-        answer.setSiteUser(siteUser);
+        answer.setWriter(siteUser);
         answerRepository.save(answer);
     }
 

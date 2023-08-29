@@ -3,10 +3,13 @@
     <!--질문-->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
     <div class="card my-3">
-        <div class="card-body">
+        <div class="card-body">  <!-- white-space:pre-line; 줄바꿈 인식하고, 공백은 앞쪽만 인식 -->
             <div class="card-text" style="white-space:pre-line;" th:text="${question.content}"></div>
-            <div class="d-flax justify-content-end">
-                <div class="badge bg-light text-dark p-2 text-start" th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></div>
+            <div class="d-flex justify-content-end"> <!--d-flex:한개의 row를 block레벨로 처리-->
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div th:if="${question.writer!=null}" th:text="${question.writer.username}"></div>
+                </div>
+                <div th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"/>
             </div>
         </div>
     </div>
@@ -15,7 +18,7 @@
     <!-- 반복:답변목록시작 -->
     <div>
         <ul>
-            <li th:each="answer:${question.answerList}" th:text="${answer.content}"></li>
+            <li th:each="answer:${question.answerList}" th:text="${answer.content}"></li><div th:each="answer:${question.answerList}" th:text="${answer.writer.username}"></div>
         </ul>
     </div>
     <!-- 반복:답변목록끝 -->
@@ -24,7 +27,11 @@
     <form id="answerForm" class="my-3" th:object="${answerForm}" th:action="@{|/answer/add/${question.id}|}" method="post" >
         <!--유효성검사시 에러메세지 출력영역-->
         <div th:replace="~{form_errors::formErrorsFragment}"></div>
-        <textarea th:field="*{content}" rows="8" class="form control"></textarea>
+        <!--타임리프의 security이용
+          sec:authorize="isAnonymous()"은 로그인하지않은 경우->로그인 출력->답변등록 사용불가
+          sec:authorize="isAuthenticated()"은 로그인 한 경우->답변등록 사용가능-->
+        <textarea sec:authorize="isAnonymous()" th:field="*{content}" disabled="disabled" rows="8" class="form control"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}"  rows="8" class="form control"></textarea>
         <!--<textarea name="content" rows="8" class="form control"></textarea>-->
         <input type="submit" value="답변등록" class="btn btn-primary my-2"/>
     </form>

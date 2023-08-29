@@ -24,7 +24,7 @@ public class QuestionService {
         question.setSubject(subject);
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
-        question.setSiteUser(siteUser);
+        question.setWriter(siteUser);
         questionRepository.save(question);
     }
 

@@ -5,6 +5,7 @@ import com.mycom.app.user.entity.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  subject  varchar(200),
  content  text,
  create_date  datetime*/
+@ToString
 @Getter
 @Setter
 @Entity
@@ -45,7 +47,8 @@ public class Question {
 
     //한 명의 USER가 여러 개의 질문을 작성할 수 있다.
     @ManyToOne
-    private SiteUser siteUser;
+    //private SiteUser siteUser;
+    private SiteUser writer; //user정보(id,username,email,password)
 
     //constructor
 

@@ -30,5 +30,6 @@ public class Answer {
 
     //한 명의 USER가 여러 개의 답변을 작성할 수 있다.
     @ManyToOne
-    private SiteUser siteUser;
+    //private SiteUser siteUser;
+    private SiteUser writer; //user정보(id,username,email,password)
 }

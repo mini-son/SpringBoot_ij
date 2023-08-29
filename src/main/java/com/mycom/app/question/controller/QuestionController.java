@@ -57,7 +57,7 @@ public class QuestionController {
             return "question_form";  //question_form.html문서로 이동
         }
         SiteUser siteUser = userService.getUser(principal.getName()); //user정보 가져오기
-
+        System.out.println("질문컨트롤러 siteUser="+siteUser);
         //questionForm.getSubject():(제시한 유효성검사를 통과한 데이터)폼에서 subject필드값 가져오기
         //questionForm.getContent():(제시한 유효성검사를 통과한 데이터)폼에서 content필드값 가져오기
         questionService.add(questionForm.getSubject(), questionForm.getContent(),siteUser);
