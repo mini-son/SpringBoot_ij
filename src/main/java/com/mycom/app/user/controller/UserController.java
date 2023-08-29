@@ -19,6 +19,15 @@ public class UserController {
 
     private final UserService userService;
 
+    //로그인폼을 보여줘요청
+    /*요청주소 /user/login
+    요청방식 get*/
+    @GetMapping("/login")
+    public String login(){
+        return "login_form";//templates폴더하위의 login_form.html문서
+    }
+
+
     //회원가입폼을 보여줘요청
     /*요청주소 /user/signup
     요청방식 get*/

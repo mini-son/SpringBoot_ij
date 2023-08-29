@@ -19,6 +19,7 @@ public class UserService {
         체크하는 쪽에서는 암호화된 패스워드가 가능한 패스워드인지만 확인하고
         다시 원문으로 되돌리지는못한다.(교재 p651참고)*/
 
+
     //회원가입처리
     public SiteUser create(String username,String email,String password){
         //여기에서는 일단(컨트롤러부터는 DTO로 받아서 작업할 예정)
