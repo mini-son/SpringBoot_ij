@@ -3,8 +3,8 @@ package com.mycom.app.question.service;
 import com.mycom.app.exception.DataNotFoundException;
 import com.mycom.app.question.entity.Question;
 import com.mycom.app.question.repository.QuestionRepository;
+import com.mycom.app.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,11 +17,14 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     //질문등록처리
-    public void add(String subject,String content){
+    //SiteUser siteUser : 질문작성자의 정보
+
+    public void add(String subject, String content, SiteUser siteUser){
         Question question = new Question();
         question.setSubject(subject);
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
+        question.setSiteUser(siteUser);
         questionRepository.save(question);
     }
 

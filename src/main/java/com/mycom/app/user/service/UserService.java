@@ -1,10 +1,13 @@
 package com.mycom.app.user.service;
 
+import com.mycom.app.exception.DataNotFoundException;
 import com.mycom.app.user.entity.SiteUser;
 import com.mycom.app.user.reposotory.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,15 @@ public class UserService {
         siteUser.setPassword(passwordEncoder.encode(password));
         userRepository.save(siteUser);
         return siteUser;
+    }
+
+    //user정보조회
+    public SiteUser getUser(String username){
+        Optional<SiteUser> siteUser = userRepository.findByusername(username);
+        if(siteUser.isPresent()){
+            return siteUser.get();
+        }else {
+            throw new DataNotFoundException("siteUser NOt FOUND");
+        }
     }
 }

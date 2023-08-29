@@ -1,9 +1,11 @@
 package com.mycom.app.answer.entity;
 
 import com.mycom.app.question.entity.Question;
+import com.mycom.app.user.entity.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Answer {
 
     //field
@@ -24,4 +27,8 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    //한 명의 USER가 여러 개의 답변을 작성할 수 있다.
+    @ManyToOne
+    private SiteUser siteUser;
 }

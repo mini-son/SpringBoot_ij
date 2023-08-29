@@ -1,6 +1,7 @@
 package com.mycom.app.question.entity;
 
 import com.mycom.app.answer.entity.Answer;
+import com.mycom.app.user.entity.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +39,13 @@ public class Question {
 
     /*@OneToMany 속성
     mappedBy는 참조 엔티티의 속성명
-    CascadeType.REMOVE : 질문을 삭제하면 그에 딸린 대답목록도 같이 삭제
-    */
+    CascadeType.REMOVE : 질문을 삭제하면 그에 딸린 대답목록도 같이 삭제*/
     @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    //한 명의 USER가 여러 개의 질문을 작성할 수 있다.
+    @ManyToOne
+    private SiteUser siteUser;
 
     //constructor
 

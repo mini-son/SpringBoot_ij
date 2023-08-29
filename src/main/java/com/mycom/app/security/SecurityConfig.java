@@ -2,8 +2,10 @@ package com.mycom.app.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,8 +24,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
   .logoutSuccessUrl("/").invalidateHttpSession(true))
   요청주소/user/logout 이면 로그아웃 처리 진행
   로그아웃이 성공적으로 진행되면 "/"로 이동해라(여기서는 main페이지로 이동)
-  세션을 삭제
-*/
+  세션을 삭제*/
+@EnableMethodSecurity(prePostEnabled = true)//@PreAuthorize("isAuthenticated()") //로그인인증이 동작할 수 있기 위함
 public class SecurityConfig {
 
     //SecurityFilterChain 클래스 생성
