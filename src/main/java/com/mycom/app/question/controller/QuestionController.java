@@ -7,12 +7,15 @@ import com.mycom.app.question.validation.QuestionForm;
 import com.mycom.app.user.entity.SiteUser;
 import com.mycom.app.user.service.UserService;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -24,6 +27,44 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final UserService userService;
+
+    //질문수정처리폼 보여줘=>여기에서는 질문등록폼을 이용
+    /*요청주소 /question/modify/{question.id}
+    요청방식 get*/
+    @GetMapping("/modify/{id}")
+    public String questionModify(QuestionForm questionForm,
+                                 @PathVariable("id") Integer id,Principal principal){
+        //1.파라미터받기
+        //2.비지니스로직수행
+        Question question = questionService.getQuestion(id); //질문상세
+        if(!question.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한이 없습니다.");
+        }
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        //3.Model //4.View
+        return "question_form"; //질문등록폼으로 이동
+    }
+
+    //질문수정처리
+    /*요청주소 /question/modify/{question.id}
+    요청방식 post*/
+    @PostMapping("/modify/{id}")
+    public String modify(@Valid QuestionForm questionForm,BindingResult bindingResult,
+                         @PathVariable("id") Integer id,Principal principal){
+        //1.파라미터받기
+        if(bindingResult.hasErrors()){ //유효성검사시 에러가 발생하면
+            return "question_form"; //question_form.html문서로 이동
+        }
+        //2.비지니스로직수행
+        Question question = questionService.getQuestion(id); //질문상세
+        if(!question.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한이 없습니다.");
+        }
+        questionService.modify(question,questionForm.getSubject(),questionForm.getContent());
+        return String.format("redirect:/question/detail/%d",id); //수정상세페이지로 이동
+    }
+
 
     /*질문등록폼 보여줘 요청
     요청방식 get

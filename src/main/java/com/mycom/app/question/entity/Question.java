@@ -38,6 +38,8 @@ public class Question {
     //필드명이 대소문자 섞인 형태는 _, 컬럼명은 전부 소문자로 처리
     @Column
     private LocalDateTime createDate;//작성일
+    @Column
+    private LocalDateTime modifyDate;//수정일
 
     /*@OneToMany 속성
     mappedBy는 참조 엔티티의 속성명

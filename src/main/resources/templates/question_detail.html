@@ -13,13 +13,28 @@
             </div>
         </div>
     </div>
+    <div class="my-3">
+        <!--질문수정버튼 로그인해야지만 수정가능,로그인한 유저가 글쓴이와 동일해야만 한다.-->
+        <a th:href="@{|/question/modify/${question.id}|}"
+           class="btn btn-sm btn-outline-secondary"
+           sec:authorize="isAuthenticated()"
+           th:if="${question.writer!=null and #authentication.getPrincipal().getUsername()==question.writer.username}"
+           th:text="수정"></a>
+        <!--질문삭제버튼-->
+    </div>
     <!-- 답변갯수 출력 -->
     <h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
     <!-- 반복:답변목록시작 -->
-    <div>
-        <ul>
-            <li th:each="answer:${question.answerList}" th:text="${answer.content}"></li><div th:each="answer:${question.answerList}" th:text="${answer.writer.username}"></div>
-        </ul>
+    <div class="card my-3">
+        <div class="card-body" th:each="answer:${question.answerList}">
+                <div class="card-text" style="white-space:pre-line;" th:text="${answer.content}"></div>
+                <div class="d-flex justify-content-end"> <!--d-flex:한개의 row를 block레벨로 처리-->
+                    <div class="badge bg-light text-dark p-2 text-start">
+                        <div th:if="${answer.writer!=null}" th:text="${answer.writer.username}"></div>
+                    </div>
+                    <div th:text="${#temporals.format(answer.createDate,'yyyy-MM-dd HH:mm')}"/>
+                </div>
+        </div>
     </div>
     <!-- 반복:답변목록끝 -->
     <!-- 답변등록폼 -->
@@ -30,10 +45,40 @@
         <!--타임리프의 security이용
           sec:authorize="isAnonymous()"은 로그인하지않은 경우->로그인 출력->답변등록 사용불가
           sec:authorize="isAuthenticated()"은 로그인 한 경우->답변등록 사용가능-->
-        <textarea sec:authorize="isAnonymous()" th:field="*{content}" disabled="disabled" rows="8" class="form control"></textarea>
-        <textarea sec:authorize="isAuthenticated()" th:field="*{content}"  rows="8" class="form control"></textarea>
+        <textarea sec:authorize="isAnonymous()" th:field="*{content}" disabled="disabled" rows="8" class="form-control"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}"  rows="8" class="form-control"></textarea>
         <!--<textarea name="content" rows="8" class="form control"></textarea>-->
         <input type="submit" value="답변등록" class="btn btn-primary my-2"/>
     </form>
 
 </div>
+
+
+<!-- [ Thymeleaf  타입별 사용법 ]
+-기본 기능
+  th:text="${}"
+  th:href="@{}"
+  th:with="${}"
+  th:value="${}"
+
+-Layout
+  xmlns:layout="", layout:decorator=""
+  th:block
+  th:fragment=""
+  th:replace="~{파일경로 :: 조각이름}"
+  th:insert="~{파일경로 :: 조각이름}"
+
+-Form
+  th:action="@{}"
+  th:object="${}"
+  th:field="*{}"
+
+-조건문과 반복문
+  th:if="${}", th:unless="${}"
+  th:each="변수 : ${list}"
+  th:switch, th:case
+
+-Number.sequest
+  #numbers.sequest(start, end, step)
+
+-->
