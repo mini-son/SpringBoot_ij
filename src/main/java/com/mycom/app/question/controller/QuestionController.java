@@ -28,9 +28,26 @@ public class QuestionController {
     private final QuestionService questionService;
     private final UserService userService;
 
+    //삭제처리
+    /*요청주소 /question/delete/${question.id}
+    요청방식 post*/
+    @GetMapping("/delete/{id}")
+    public String questionDelte(@PathVariable("id") Integer id,Principal principal){
+        //1.파라미터받기
+        //2.비지니스로직수행
+        Question question = questionService.getQuestion(id); //질문상세
+        if(!question.getWriter().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 없습니다.");
+        }
+        questionService.delete(question);
+        return "redirect:/question/list"; //(질의목록조회요청에 따른) 질의목록페이지로 이동
+    }
+
+
     //질문수정처리폼 보여줘=>여기에서는 질문등록폼을 이용
-    /*요청주소 /question/modify/{question.id}
+    /*요청주소 /question/modify/${question.id}
     요청방식 get*/
+    @PreAuthorize("isAuthenticated()") //인증을 요하는 메서드
     @GetMapping("/modify/{id}")
     public String questionModify(QuestionForm questionForm,
                                  @PathVariable("id") Integer id,Principal principal){
@@ -47,7 +64,7 @@ public class QuestionController {
     }
 
     //질문수정처리
-    /*요청주소 /question/modify/{question.id}
+    /*요청주소 /question/modify/${question.id}
     요청방식 post*/
     @PostMapping("/modify/{id}")
     public String modify(@Valid QuestionForm questionForm,BindingResult bindingResult,

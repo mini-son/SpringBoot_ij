@@ -23,7 +23,10 @@ public class Answer {
     @Column
     private String content; //content
     @Column
-    private LocalDateTime createDate; //create_date
+    private LocalDateTime createDate; //create_date 답변등록일
+    @Column
+    private LocalDateTime modifyDate; //modify_date 답변수정일
+
 
     @ManyToOne
     private Question question;

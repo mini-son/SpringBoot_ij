@@ -2,17 +2,41 @@ package com.mycom.app.answer.service;
 
 import com.mycom.app.answer.entity.Answer;
 import com.mycom.app.answer.repository.AnswerRepository;
+import com.mycom.app.exception.DataNotFoundException;
 import com.mycom.app.question.entity.Question;
 import com.mycom.app.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
+
+    //답변삭제
+    public void delete(Answer answer) {
+        answerRepository.delete(answer);
+    }
+
+    //답변수정
+    public void modify(Answer answer,String content){
+        answer.setContent(content);
+        answer.setModifyDate(LocalDateTime.now()); //답변수정일
+        answerRepository.save(answer);
+    }
+
+    //답변상세조회
+    public Answer getAnswer(Integer id) {
+        Optional<Answer> answer = answerRepository.findById(id);
+        if(answer.isPresent()){
+            return answer.get();
+        }else{
+            throw new DataNotFoundException("Answer not Found");
+        }
+    }
 
     //답변등록처리
     //SiteUser siteUser : 답변작성하는 user 정보
@@ -24,5 +48,6 @@ public class AnswerService {
         answer.setWriter(siteUser);
         answerRepository.save(answer);
     }
+
 
 }

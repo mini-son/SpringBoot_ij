@@ -17,6 +17,11 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
+    //삭제처리
+    public void delete(Question question) {
+        questionRepository.delete(question);
+    }
+
     //질문수정처리
     public void modify(Question question, String subject, String content) {
         question.setSubject(subject);
@@ -52,5 +57,6 @@ public class QuestionService {
         System.out.println(questionList.size());
         return questionList;
     }
+
 
 }
