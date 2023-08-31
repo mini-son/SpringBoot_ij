@@ -9,6 +9,7 @@ import com.mycom.app.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -142,11 +143,15 @@ public class QuestionController {
         return "question_detail"; //templates폴더하위  .html
     }
 
-    //질문목록조회
+    //페이징기능이있는 질문목록조회
+    //요청주소   /question/list?page=보고싶은 페이지번호
+    //주의. springboot의 첫 페이지번호는 1이아닌 0
+    //주의. 파라미터의 값은 문자열로 받는다.
     @GetMapping("/list")
-    public String questionList(Model model){
-        List<Question> questionList = this.questionService.getList();
-        model.addAttribute("questionList",questionList);
+    public String questionList(Model model,
+                               @RequestParam(value ="page",defaultValue="0") int page){
+        Page<Question> questionPage = this.questionService.getList(page);
+        model.addAttribute("questionPage",questionPage);
         return "question_list"; //templates폴더하위 question_list문서
     }
 

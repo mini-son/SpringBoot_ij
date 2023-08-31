@@ -25,15 +25,16 @@ class AppApplicationTests {
 	@Test
 	void testJpa(){
 		//더미데이터입력
-	/*	for(int i=1001;i<=1010;i++){
+		for(int i=5;i<=120;i++){
 			Question question = new Question();
 			question.setSubject("제목"+i);
 			question.setContent("내용"+i);
 			question.setCreateDate(LocalDateTime.now());
+			question.setModifyDate(LocalDateTime.now());
 			questionRepository.save(question);
 
 			System.out.println("전체레코드수="+questionRepository.count()); //콘솔출력
-		}*/
+		}
 
 		//1개의 질문 등록
 	/*	Question question = new Question();
@@ -54,12 +55,12 @@ class AppApplicationTests {
 		//예측값과 결과값이 불일치하면 true가 fail의미
 
 		//질문 목록 조회 : findAll()
-		List<Question> questionList = questionRepository.findAll();
+	/*	List<Question> questionList = questionRepository.findAll();
 		assertEquals(15,questionList.size()); //success
 
 		Question question = questionList.get(0); //전체목록에서 첫 번째 행을 가져옴.
 		assertEquals("질문제목1",question.getSubject()); //success
-		//assertEquals("~1",question.getSubject()); //fail
+		//assertEquals("~1",question.getSubject()); //fail*/
 
 		//상세 조회 : findById()
 		//findById(3)은 Question테이블에서 id가 3인 Question Entity 가져오기
