@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 //question 테이블 관련 데이터를 처리하기 위한 클래스
 /* id  int   primary key auto_increment,
@@ -51,6 +52,12 @@ public class Question {
     @ManyToOne
     //private SiteUser siteUser;
     private SiteUser writer; //user정보(id,username,email,password)
+
+    //1개의 질문은 추천인이 많을 수 있다.
+    //1명의 추천인은 여러 질문들을 추천할 수 있다.
+    //추천인이 중복되지 않게 하기위해 Set타입으로 지정
+    @ManyToMany
+    Set<SiteUser> voter;
 
     //constructor
 

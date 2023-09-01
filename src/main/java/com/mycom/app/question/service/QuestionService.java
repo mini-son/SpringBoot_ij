@@ -73,5 +73,12 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
 
-
+    //답변추천
+    public void vote(Question question,SiteUser siteUser) {
+        //question.getVoter() : 기존추천목록을 가져온다=>Set<SiteUser>
+        //Set참조변수명.add(값) : Set인터페이스에 값을 추가
+        //기존추천목록.add(새로운 추천인);
+        question.getVoter().add(siteUser);
+        questionRepository.save(question);
+    }
 }

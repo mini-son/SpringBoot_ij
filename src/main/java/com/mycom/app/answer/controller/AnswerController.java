@@ -111,4 +111,26 @@ public class AnswerController {
         //4.View
         return String.format("redirect:/question/detail/%d",id); //question_detail
     }
+
+    //답변추천
+    //요청주소  /answer/vote/질문번호
+    //요청방식  get
+    @PreAuthorize("isAuthenticated()") //로그인인증=>로그인이 필요한 기능
+    @GetMapping("/vote/{id}")
+    public String answerVote(@PathVariable("id") Integer id,Principal principal){
+        //파라미터 id는 답변번호를 의미
+        Answer answer = answerService.getAnswer(id); //해당질문의 상세정보 조회(투표인의 내용 포함)
+        //principal.getName(); //로그인한 유저
+        //로그인한 유저를 이용하여 site_user테이블에서 유저의 상세정보를 가져오기=>새 추천인정보
+        SiteUser siteUser= userService.getUser(principal.getName());//추천인정보
+        answerService.vote(answer,siteUser);
+
+        //질문상세요청은  /question/detail/질문번호 이므로
+        //위에서 받은 파라미터인 답변번호를 통해 해당질문이 몇번인지, 즉 질문번호를 구하여
+        //질문상세요청을 완성해야한다.
+        //답변.getQuestion() => Question객체얻는다. => 받은 Question객체.getId()를 이용하여
+        return String.format("redirect:/question/detail/%d",answer.getQuestion().getId()); //(질문상세조회요청을 통한)질문상세페이지로 이동
+    }
+
+
 }

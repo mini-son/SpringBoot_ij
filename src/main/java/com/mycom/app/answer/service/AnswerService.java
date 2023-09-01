@@ -49,5 +49,14 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
+    //답변추천
+    public void vote(Answer answer,SiteUser siteUser) {
+        //question.getVoter() : 기존추천목록을 가져온다=>Set<SiteUser>
+        //Set참조변수명.add(값) : Set인터페이스에 값을 추가
+        //기존추천목록.add(새로운 추천인);
+        answer.getVoter().add(siteUser);
+        answerRepository.save(answer);
+    }
+
 
 }

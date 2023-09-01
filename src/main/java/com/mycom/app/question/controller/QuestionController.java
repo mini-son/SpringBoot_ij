@@ -155,5 +155,18 @@ public class QuestionController {
         return "question_list"; //templates폴더하위 question_list문서
     }
 
+    //질문추천
+    //요청주소  /question/vote/질문번호
+    //요청방식  get
+    @PreAuthorize("isAuthenticated()") //로그인인증=>로그인이 필요한 기능
+    @GetMapping("/vote/{id}")
+    public String questionVote(@PathVariable("id") Integer id,Principal principal){
+        Question question = questionService.getQuestion(id); //해당질문의 상세정보 조회(투표인의 내용 포함)
+        //principal.getName(); //로그인한 유저
+        //로그인한 유저를 이용하여 site_user테이블에서 유저의 상세정보를 가져오기=>새 추천인정보
+        SiteUser siteUser= userService.getUser(principal.getName());//추천인정보
+        questionService.vote(question,siteUser);
+        return String.format("redirect:/question/detail/%d",id); //(질문상세조회요청을 통한)질문상세페이지로 이동
+    }
 
 }
