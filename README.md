@@ -1,1 +1,1 @@
-﻿# SpringBoot_ij
+﻿# 스프링부트 수업
